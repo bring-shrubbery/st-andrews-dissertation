@@ -1,3 +1,5 @@
 {
-  "python.pythonPath": "/cs/home/as521/centml/bin/python"
+  "python.pythonPath": "/cs/home/as521/centml/bin/python",
+  "python.linting.pylintEnabled": true,
+  "python.linting.enabled": true
 }
