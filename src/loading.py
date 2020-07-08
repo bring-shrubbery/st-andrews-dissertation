@@ -1,6 +1,8 @@
+import tensorflow as tf
 from typing import List
 import pydicom
 import pandas as pd
+import numpy as np
 from os.path import join
 import os
 import re
@@ -67,8 +69,10 @@ def loadMediumPolypFeatures(filepath):
     # Clean up supine and prone slice values.
     # medium_polyps_df.supine_slice = ["nan" if len(s) == 0 else s for s in medium_polyps_df.supine_slice]
 
-    medium_polyps_df.supine_slice = [str(s) for s in medium_polyps_df.supine_slice]
-    medium_polyps_df.prone_slice = [str(s) for s in medium_polyps_df.prone_slice]
+    medium_polyps_df.supine_slice = [str(s)
+                                     for s in medium_polyps_df.supine_slice]
+    medium_polyps_df.prone_slice = [str(s)
+                                    for s in medium_polyps_df.prone_slice]
 
     # Filter dataframe to exclude rows that do not contian at least one slice number
     prone_qualifier = medium_polyps_df.prone_slice.str.contains('nan')
@@ -81,6 +85,7 @@ def loadMediumPolypFeatures(filepath):
 def loadLargePolypsImageIds(filepath):
     df = loadLargePolypFeatures(filepath)
     return filterSliceIds(df)
+
 
 def loadMediumPolypsImageIds(filepath):
     df = loadMediumPolypFeatures(filepath)
@@ -118,8 +123,8 @@ def formatDicomFilename(id):
     return "1-"+str(id).rjust(3, '0')+".dcm"
 
 
-def loadLargePolypImages():
-    image_paths = []
+def loadLargePolypData():
+    image_data_list = []
 
     large_polyp_csv_file = join(os.path.dirname(
         __file__), '../features/large_polyps.csv')
@@ -155,7 +160,10 @@ def loadLargePolypImages():
                 dicom_full_path = join(p, filename)
                 # print(dicom_full_path)
 
-                image_paths.append(dicom_full_path)
+                image_data_list.append({
+                    'study_id': f['tcia_id'],
+                    'path': dicom_full_path
+                })
 
             # Identify supine folders
             if re.search('prone', subpath, re.IGNORECASE) and 'prone_id' in f:
@@ -165,13 +173,16 @@ def loadLargePolypImages():
                 dicom_full_path = join(p, filename)
                 # print(dicom_full_path)
 
-                image_paths.append(dicom_full_path)
+                image_data_list.append({
+                    'study_id': f['tcia_id'],
+                    'path': dicom_full_path
+                })
 
-    return loadDicomList(image_paths)
+    return image_data_list
 
 
-def loadMediumPolypImages():
-    image_paths = []
+def loadMediumPolypData():
+    image_data_list = []
 
     medium_polyp_csv_file = join(os.path.dirname(
         __file__), '../features/medium_polyps.csv')
@@ -207,7 +218,10 @@ def loadMediumPolypImages():
                 dicom_full_path = join(p, filename)
                 # print(dicom_full_path)
 
-                image_paths.append(dicom_full_path)
+                image_data_list.append({
+                    'study_id': f['tcia_id'],
+                    'path': dicom_full_path
+                })
 
             # Identify supine folders
             if re.search('prone', subpath, re.IGNORECASE) and 'prone_id' in f:
@@ -217,22 +231,174 @@ def loadMediumPolypImages():
                 dicom_full_path = join(p, filename)
                 # print(dicom_full_path)
 
-                image_paths.append(dicom_full_path)
+                image_data_list.append({
+                    'study_id': f['tcia_id'],
+                    'path': dicom_full_path
+                })
 
-    return loadDicomList(image_paths)
+    return image_data_list
+
+
+def loadBinaryDataset():
+    large_polyp_data_list = loadLargePolypData()
+    medium_polyp_data_list = loadMediumPolypData()
+
+    image_data_list = []
+    image_data_list.extend(large_polyp_data_list)
+    image_data_list.extend(medium_polyp_data_list)
+
+    datasets = [
+        [],  # X_train
+        [],  # y_train
+        [],  # X_val
+        [],  # y_val
+        [],  # X_test
+        []  # y_test
+    ]
+
+    # Reindex the links by the study id.
+    study_based_map = {}
+    for i in range(len(image_data_list)):
+        sample = image_data_list[i]
+        sid = sample['study_id']
+
+        if sid in study_based_map:
+            study_based_map[sid].append(sample['path'])
+        else:
+            study_based_map[sid] = [sample['path']]
+
+    val_fraction = 1./.2
+    test_fraction = 1./.2
+
+    # Only append the images from the same study to the same dataset.
+    # Samples are added to the dataset with the least weighted sample sount.
+    for key in study_based_map:
+        min_size = int(min([
+            len(datasets[0]),
+            len(datasets[1]),
+            len(datasets[2])*val_fraction,
+            len(datasets[3])*val_fraction,
+            len(datasets[4])*test_fraction,
+            len(datasets[5])*test_fraction
+        ]))
+        for i in range(0, len(datasets), 2):
+            dataset_weight = val_fraction if i == 2 else (
+                test_fraction if i == 4 else 1.)
+            if int(len(datasets[i])*dataset_weight) == min_size:
+                datasets[i].extend(study_based_map[key])
+                datasets[i+1].extend([1]*len(study_based_map[key]))
+                break
+
+    X_train = loadDicomListPixelData(datasets[0])
+    y_train = datasets[1]
+
+    X_val = loadDicomListPixelData(datasets[2])
+    y_val = datasets[3]
+    
+    X_test = loadDicomListPixelData(datasets[4])
+    y_test = datasets[5]
+
+    # Reshape images to be 512x512
+    X_train = [x.reshape(512, 512, 1) for x in X_train]
+    X_val = [x.reshape(512, 512, 1) for x in X_val]
+    X_test = [x.reshape(512, 512, 1) for x in X_test]
+
+    # Append engative samples
+    all_no_polyp_images = loadRandomNoPolypImages()
+    all_no_polyp_images = [x.reshape(512, 512, 1) for x in all_no_polyp_images]
+
+    total_count = len(X_train)+len(X_val)+len(X_test)
+    X_train_len = len(X_train)
+    X_train_val_len = len(X_train) + len(X_val)
+
+    for i in range(total_count):
+        if i < X_train_len:
+            X_train.append(all_no_polyp_images[i])
+            y_train.append(0)
+        elif i < X_train_val_len:
+            X_val.append(all_no_polyp_images[i])
+            y_val.append(0)
+        else:
+            X_test.append(all_no_polyp_images[i])
+            y_test.append(0)
+
+    print(len(X_train))
+    print(len(y_train))
+    print(len(X_val))
+    print(len(y_val))
+    print(len(X_test))
+    print(len(y_test))
+
+    # Introduce flipped images
+    X_train_size = len(X_train)
+    for i in range(X_train_size):
+        # Flip left-right
+        flipped_lr_image = np.fliplr(X_train[i])
+        X_train.append(flipped_lr_image)
+        y_train.append(y_train[i])
+
+        # Flip up-down
+        flipped_ud_image = np.flipud(X_train[i])
+        X_train.append(flipped_ud_image)
+        y_train.append(y_train[i])
+
+    X_val_size = len(X_val)
+    for i in range(X_val_size):
+        # Flip left-right
+        flipped_lr_image = np.fliplr(X_val[i])
+        X_val.append(flipped_lr_image)
+        y_val.append(y_val[i])
+
+        # Flip up-down
+        flipped_up_image = np.flipud(X_val[i])
+        X_val.append(flipped_up_image)
+        y_val.append(y_val[i])
+
+    X_test_size = len(X_test)
+    for i in range(X_test_size):
+        # Flip left-right
+        flipped_lr_image = np.fliplr(X_test[i])
+        X_test.append(flipped_lr_image)
+        y_test.append(y_test[i])
+
+        # Flip up-down
+        flipped_up_image = np.flipud(X_test[i])
+        X_test.append(flipped_up_image)
+        y_test.append(y_test[i])
+
+    
+    print(len(X_train))
+    print(len(y_train))
+    print(len(X_val))
+    print(len(y_val))
+    print(len(X_test))
+    print(len(y_test))
+
+    # exit()
+
+    X_train = np.array(X_train)
+    y_train = np.array(y_train)
+    X_val = np.array(X_val)
+    y_val = np.array(y_val)
+    X_test = np.array(X_test)
+    y_test = np.array(y_test)
+
+    return X_train, y_train, X_val, y_val, X_test, y_test
+
 
 def loadRandomNoPolypImages():
     image_paths = []
 
-    no_polyp_csv_file = join(os.path.dirname(__file__), '../features/no_polyps.csv')
-    
+    no_polyp_csv_file = join(os.path.dirname(
+        __file__), '../features/no_polyps.csv')
+
     no_polyp_df = pd.read_csv(no_polyp_csv_file).rename(columns={
         'TCIA Patient ID': 'id'
     })
 
-    print(no_polyp_df)
+    # print(no_polyp_df)
 
-    images_to_sample_from_single_patient = 10
+    images_to_sample_from_single_patient = 20
 
     for i in no_polyp_df.index:
         tcia_id = no_polyp_df.loc[i].id
@@ -255,9 +421,9 @@ def loadRandomNoPolypImages():
 
                 for i in range(images_to_sample_from_single_patient):
                     # Get random image with index betweeon 100 and 400.
-                    rand_ind = int(randrange(50, min(400, len(files)-1), 1))
+                    rand_ind = int(randrange(50, min(350, len(files)-1), 1))
                     image_paths.append(join(p, files[rand_ind]))
 
                 break
 
-    return loadDicomList(image_paths)
+    return loadDicomListPixelData(image_paths)
