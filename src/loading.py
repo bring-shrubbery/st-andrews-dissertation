@@ -162,6 +162,7 @@ def loadLargePolypData():
 
                 image_data_list.append({
                     'study_id': f['tcia_id'],
+                    'slice_id': f['supine_id'],
                     'path': dicom_full_path
                 })
 
@@ -175,6 +176,7 @@ def loadLargePolypData():
 
                 image_data_list.append({
                     'study_id': f['tcia_id'],
+                    'slice_id': f['prone_id'],
                     'path': dicom_full_path
                 })
 
@@ -220,6 +222,9 @@ def loadMediumPolypData():
 
                 image_data_list.append({
                     'study_id': f['tcia_id'],
+                    'slice_id': f['supine_id'],
+                    'position': 'supine',
+                    'combined_name': '{}-{}-{}'.format(f['tcia_id'], f['supine_id'], 'supine'),
                     'path': dicom_full_path
                 })
 
@@ -233,6 +238,9 @@ def loadMediumPolypData():
 
                 image_data_list.append({
                     'study_id': f['tcia_id'],
+                    'slice_id': f['prone_id'],
+                    'position': 'prone',
+                    'combined_name': '{}-{}-{}'.format(f['tcia_id'], f['prone_id'], 'prone'),
                     'path': dicom_full_path
                 })
 
@@ -243,9 +251,7 @@ def loadBinaryDataset():
     large_polyp_data_list = loadLargePolypData()
     medium_polyp_data_list = loadMediumPolypData()
 
-    image_data_list = []
-    image_data_list.extend(large_polyp_data_list)
-    image_data_list.extend(medium_polyp_data_list)
+    image_data_list = large_polyp_data_list + medium_polyp_data_list
 
     datasets = [
         [],  # X_train
@@ -303,8 +309,10 @@ def loadBinaryDataset():
     X_val = [x.reshape(512, 512, 1) for x in X_val]
     X_test = [x.reshape(512, 512, 1) for x in X_test]
 
-    # Append engative samples
-    all_no_polyp_images = loadRandomNoPolypImages()
+    # Append no-polyp samples
+    # all_no_polyp_images = loadRandomNoPolypImages()
+    slice_ids = sorted([p['slice_id'] for p in image_data_list])
+    all_no_polyp_images = loadNoPolypImagesFromSlideIds(slice_ids)
     all_no_polyp_images = [x.reshape(512, 512, 1) for x in all_no_polyp_images]
 
     total_count = len(X_train)+len(X_val)+len(X_test)
@@ -329,7 +337,7 @@ def loadBinaryDataset():
     print(len(X_test))
     print(len(y_test))
 
-    # Introduce flipped images
+    # Introduce flipped images derived from all.
     X_train_size = len(X_train)
     for i in range(X_train_size):
         # Flip left-right
@@ -378,10 +386,10 @@ def loadBinaryDataset():
 
     X_train = np.array(X_train)
     y_train = np.array(y_train)
-    X_val = np.array(X_val)
-    y_val = np.array(y_val)
-    X_test = np.array(X_test)
-    y_test = np.array(y_test)
+    X_val   = np.array(X_val)
+    y_val   = np.array(y_val)
+    X_test  = np.array(X_test)
+    y_test  = np.array(y_test)
 
     return X_train, y_train, X_val, y_val, X_test, y_test
 
@@ -398,7 +406,7 @@ def loadRandomNoPolypImages():
 
     # print(no_polyp_df)
 
-    images_to_sample_from_single_patient = 20
+    images_to_sample_from_single_patient = 1
 
     for i in no_polyp_df.index:
         tcia_id = no_polyp_df.loc[i].id
@@ -425,5 +433,75 @@ def loadRandomNoPolypImages():
                     image_paths.append(join(p, files[rand_ind]))
 
                 break
+
+    return loadDicomListPixelData(image_paths)
+
+
+def getNoPolypDataframe():
+    csv_filename = os.path.join(os.path.dirname(
+        __file__), '../features/no_polyps.csv')
+    name_map = {'TCIA Patient ID': 'id'}
+    return pd.read_csv(csv_filename).rename(columns=name_map)
+
+
+def loadNoPolypImagesFromSlideIds(ids):
+    ids = sorted(int(s) for s in ids)
+
+    no_polyp_df = getNoPolypDataframe()
+
+    image_paths = []
+
+    for i in no_polyp_df.index:
+        # Get study id and create a path to it in the dataset
+        tcia_id = no_polyp_df.loc[i].id
+        full_path = os.path.join(DATASET_ROOT_DIRECTORY, 'no-polyps', tcia_id)
+
+        # Escape if the folder does not exist (because
+        # we might have not downloaded full dataset)
+        if not os.path.exists(full_path):
+            continue
+
+        # Get list of subfolders
+        dirlist = os.listdir(full_path)
+
+        # Skip folder if there are multiple studies, for simplicity
+        if len(dirlist) > 1:
+            continue
+
+        # Navigate into the first folder and list the items inside
+        full_path = os.path.join(full_path, dirlist[0])
+        dirlist = os.listdir(full_path)
+
+        # Iterate over the subpaths (which contain supine and prone positions)
+        for subpath in dirlist:
+            # Get the path to the particular prone/supine path
+            p = os.path.join(full_path, subpath)
+
+            # Get filenames inside and only proceed if there are more than
+            # 10 files to eliminate folders with one sample
+            files = os.listdir(p)
+            if len(files) > 10:
+                files_extracted = 0
+                files_to_extract = 2
+                _id = -1
+                while files_extracted < files_to_extract:
+                    if len(ids) == 0: break
+
+                    # Proceed if the filename is in the file list.
+                    current_name = formatDicomFilename(str(ids[_id]))
+                    if current_name in files:
+                        # File exists!
+                        full_file_path = os.path.join(p, current_name)
+                        image_paths.append(full_file_path)
+                        ids.pop(_id)
+                        files_extracted += 1
+                    else:
+                        _id -= 1
+            # Only use one folder per patient
+            # break
+            if len(ids) == 0:
+                break
+
+        if len(ids) == 0: break
 
     return loadDicomListPixelData(image_paths)
