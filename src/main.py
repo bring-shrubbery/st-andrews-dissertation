@@ -24,27 +24,32 @@ X_train = tf.keras.utils.normalize(X_train)
 X_val = tf.keras.utils.normalize(X_val)
 X_test = tf.keras.utils.normalize(X_test)
 
+regularization_factor = 0.4
+
 # Create CNN
 model = models.Sequential()
 model.add(layers.Conv2D(128, (7, 7),
                         activation='relu', input_shape=(512, 512, 1)))
 model.add(layers.MaxPooling2D((3, 3)))
-model.add(layers.Dropout(0.2))
+model.add(layers.Dropout(regularization_factor))
 # model.add(layers.LayerNormalization())
-model.add(layers.Conv2D(128, (5, 5), activation='relu'))
+model.add(layers.Conv2D(386, (5, 5), activation='relu'))
 model.add(layers.MaxPooling2D((3, 3)))
 # model.add(layers.LayerNormalization())
+model.add(layers.Dropout(regularization_factor))
 # model.add(layers.Dropout(0.4))
-model.add(layers.Conv2D(128, (3, 3), activation='relu'))
-model.add(layers.Conv2D(64, (3, 3), activation='relu'))
-model.add(layers.Conv2D(64, (3, 3), activation='relu'))
+model.add(layers.Conv2D(386, (3, 3), activation='relu'))
+model.add(layers.Dropout(regularization_factor))
+model.add(layers.Conv2D(386, (3, 3), activation='relu'))
+model.add(layers.Dropout(regularization_factor))
+model.add(layers.Conv2D(256, (3, 3), activation='relu'))
 model.add(layers.MaxPooling2D((3, 3)))
 model.add(layers.Dropout(0.5))
 
 model.add(layers.Flatten())
-model.add(layers.Dense(1024, activation='relu'))
-model.add(layers.Dropout(0.2))
-model.add(layers.Dense(1024, activation='relu'))
+model.add(layers.Dense(4096, activation='relu'))
+model.add(layers.Dropout(regularization_factor))
+model.add(layers.Dense(4096, activation='relu'))
 model.add(layers.Dense(1, activation='sigmoid',
                        bias_constraint=MinMaxNorm(min_value=0.2, max_value=0.8)))
 
@@ -52,7 +57,7 @@ print(model.summary())
 
 # exit()
 
-model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=0.000005),
+model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=0.00001),
               # loss=tf.keras.losses.SparseCategoricalCrossentropy(
               #     from_logits=True),
               # loss=tf.keras.losses.CategoricalCrossentropy(),
@@ -94,7 +99,7 @@ if "--load" in sys.argv:
     checkpoint_name = tf.train.latest_checkpoint(checkpoint_dir)
     model.load_weights(checkpoint_name)
 else:
-    history = model.fit(X_train, y_train, epochs=200, batch_size=4, validation_data=(
+    history = model.fit(X_train, y_train, epochs=400, batch_size=4, validation_data=(
         X_val, y_val), callbacks=[cp_callback], verbose=1)
 
     f = plt.figure(figsize=(15, 10))
@@ -126,7 +131,7 @@ else:
 
     f.savefig('./accuracy.png')
 
-predictions = model.predict(X_test, batch_size=16)
+predictions = model.predict(X_test, batch_size=4)
 
 predictions = [p[0] for p in predictions]
 
@@ -140,7 +145,16 @@ file = open('confusion_matrix.txt', 'w')
 file.write(str(cf))
 file.close()
 
+
+# Only use validation  set for testing
+# Get confusion matrix on training set.
+# Add regularization into loss  function
+# Add results into report
+# Explain all the steps and reasoning done during the implementation
+
 # TODO:
-# Confusion matrix
+# Plot confusion matrix
+# Save models
+# Use VGG16 architecture
 # Implement several general purpose classifier using transfer learning.
 # Write up

@@ -374,6 +374,27 @@ def loadBinaryDataset():
         X_test.append(flipped_up_image)
         y_test.append(y_test[i])
 
+    # Introduce noisy images
+    X_train_size = len(X_train)
+    for i in range(X_train_size):
+        # Flip left-right
+        noisy_image = gaussian_noise(X_train[i])
+        X_train.append(noisy_image)
+        y_train.append(y_train[i])
+
+    X_val_size = len(X_val)
+    for i in range(X_val_size):
+        # Flip left-right
+        noisy_image = gaussian_noise(X_val[i])
+        X_val.append(noisy_image)
+        y_val.append(y_val[i])
+
+    X_test_size = len(X_test)
+    for i in range(X_test_size):
+        # Flip left-right
+        noisy_image = gaussian_noise(X_test[i])
+        X_test.append(noisy_image)
+        y_test.append(y_test[i])
     
     print(len(X_train))
     print(len(y_train))
@@ -505,3 +526,14 @@ def loadNoPolypImagesFromSlideIds(ids):
         if len(ids) == 0: break
 
     return loadDicomListPixelData(image_paths)
+
+
+def gaussian_noise(img, mean=0, sigma=0.03):
+    img = img.copy()
+    noise = np.random.normal(mean, sigma, img.shape).astype(np.uint16)
+    mask_overflow_upper = img+noise >= 1.0
+    mask_overflow_lower = img+noise < 0
+    noise[mask_overflow_upper] = 1.0
+    noise[mask_overflow_lower] = 0
+    img += noise
+    return img
