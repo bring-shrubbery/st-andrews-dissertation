@@ -8,6 +8,7 @@ import os
 import re
 from constants import DATASET_ROOT_DIRECTORY
 from random import randrange
+from augmentation import flipImagesLR, flipImagesUD, addGaussianNoise
 
 # MARK: Dicom file loaders
 
@@ -300,7 +301,7 @@ def loadBinaryDataset():
 
     X_val = loadDicomListPixelData(datasets[2])
     y_val = datasets[3]
-    
+
     X_test = loadDicomListPixelData(datasets[4])
     y_test = datasets[5]
 
@@ -319,6 +320,7 @@ def loadBinaryDataset():
     X_train_len = len(X_train)
     X_train_val_len = len(X_train) + len(X_val)
 
+    # Decide which set has least entries and add new subset there.
     for i in range(total_count):
         if i < X_train_len:
             X_train.append(all_no_polyp_images[i])
@@ -337,80 +339,13 @@ def loadBinaryDataset():
     print(len(X_test))
     print(len(y_test))
 
-    # Introduce flipped images derived from all.
-    X_train_size = len(X_train)
-    for i in range(X_train_size):
-        # Flip left-right
-        flipped_lr_image = np.fliplr(X_train[i])
-        X_train.append(flipped_lr_image)
-        y_train.append(y_train[i])
-
-        # Flip up-down
-        flipped_ud_image = np.flipud(X_train[i])
-        X_train.append(flipped_ud_image)
-        y_train.append(y_train[i])
-
-    X_val_size = len(X_val)
-    for i in range(X_val_size):
-        # Flip left-right
-        flipped_lr_image = np.fliplr(X_val[i])
-        X_val.append(flipped_lr_image)
-        y_val.append(y_val[i])
-
-        # Flip up-down
-        flipped_up_image = np.flipud(X_val[i])
-        X_val.append(flipped_up_image)
-        y_val.append(y_val[i])
-
-    X_test_size = len(X_test)
-    for i in range(X_test_size):
-        # Flip left-right
-        flipped_lr_image = np.fliplr(X_test[i])
-        X_test.append(flipped_lr_image)
-        y_test.append(y_test[i])
-
-        # Flip up-down
-        flipped_up_image = np.flipud(X_test[i])
-        X_test.append(flipped_up_image)
-        y_test.append(y_test[i])
-
-    # Introduce noisy images
-    X_train_size = len(X_train)
-    for i in range(X_train_size):
-        # Flip left-right
-        noisy_image = gaussian_noise(X_train[i])
-        X_train.append(noisy_image)
-        y_train.append(y_train[i])
-
-    X_val_size = len(X_val)
-    for i in range(X_val_size):
-        # Flip left-right
-        noisy_image = gaussian_noise(X_val[i])
-        X_val.append(noisy_image)
-        y_val.append(y_val[i])
-
-    X_test_size = len(X_test)
-    for i in range(X_test_size):
-        # Flip left-right
-        noisy_image = gaussian_noise(X_test[i])
-        X_test.append(noisy_image)
-        y_test.append(y_test[i])
-    
-    print(len(X_train))
-    print(len(y_train))
-    print(len(X_val))
-    print(len(y_val))
-    print(len(X_test))
-    print(len(y_test))
-
-    # exit()
-
+    # Convert all data lists into numpy arrays.
     X_train = np.array(X_train)
     y_train = np.array(y_train)
-    X_val   = np.array(X_val)
-    y_val   = np.array(y_val)
-    X_test  = np.array(X_test)
-    y_test  = np.array(y_test)
+    X_val = np.array(X_val)
+    y_val = np.array(y_val)
+    X_test = np.array(X_test)
+    y_test = np.array(y_test)
 
     return X_train, y_train, X_val, y_val, X_test, y_test
 
@@ -506,7 +441,8 @@ def loadNoPolypImagesFromSlideIds(ids):
                 files_to_extract = 2
                 _id = -1
                 while files_extracted < files_to_extract:
-                    if len(ids) == 0: break
+                    if len(ids) == 0:
+                        break
 
                     # Proceed if the filename is in the file list.
                     current_name = formatDicomFilename(str(ids[_id]))
@@ -523,17 +459,92 @@ def loadNoPolypImagesFromSlideIds(ids):
             if len(ids) == 0:
                 break
 
-        if len(ids) == 0: break
+        if len(ids) == 0:
+            break
 
     return loadDicomListPixelData(image_paths)
 
 
-def gaussian_noise(img, mean=0, sigma=0.03):
-    img = img.copy()
-    noise = np.random.normal(mean, sigma, img.shape).astype(np.uint16)
-    mask_overflow_upper = img+noise >= 1.0
-    mask_overflow_lower = img+noise < 0
-    noise[mask_overflow_upper] = 1.0
-    noise[mask_overflow_lower] = 0
-    img += noise
-    return img
+def loadAugmentedBinaryDataset():
+    X_train, y_train, X_val, y_val, X_test, y_test = loadBinaryDataset()
+
+    # Generate flipped images
+    flipped_lr_X_train, flipped_lr_y_train = flipImagesLR(X_train, y_train)
+    flipped_ud_X_train, flipped_ud_y_train = flipImagesUD(X_train, y_train)
+    flipped_lr_ud_X_train, flipped_lr_ud_y_train = flipImagesLR(
+        flipped_ud_X_train, flipped_ud_y_train)
+
+    flipped_lr_X_val, flipped_lr_y_val = flipImagesLR(X_val, y_val)
+    flipped_ud_X_val, flipped_ud_y_val = flipImagesUD(X_val, y_val)
+    flipped_lr_ud_X_val, flipped_lr_ud_y_val = flipImagesLR(
+        flipped_ud_X_val, flipped_ud_y_val)
+
+    flipped_lr_X_test, flipped_lr_y_test = flipImagesLR(X_test, y_test)
+    flipped_ud_X_test, flipped_ud_y_test = flipImagesUD(X_test, y_test)
+    flipped_lr_ud_X_test, flipped_lr_ud_y_test = flipImagesLR(
+        flipped_ud_X_test, flipped_ud_y_test)
+
+    # Convert to lists temporily.
+    flipped_lr_X_train = list(flipped_lr_X_train)
+    flipped_lr_y_train = list(flipped_lr_y_train)
+    flipped_ud_X_train = list(flipped_ud_X_train)
+    flipped_ud_y_train = list(flipped_ud_y_train)
+    flipped_lr_ud_X_train = list(flipped_lr_ud_X_train)
+    flipped_lr_ud_y_train = list(flipped_lr_ud_y_train)
+
+    flipped_lr_X_val = list(flipped_lr_X_val)
+    flipped_lr_y_val = list(flipped_lr_y_val)
+    flipped_ud_X_val = list(flipped_ud_X_val)
+    flipped_ud_y_val = list(flipped_ud_y_val)
+    flipped_lr_ud_X_val = list(flipped_lr_ud_X_val)
+    flipped_lr_ud_y_val = list(flipped_lr_ud_y_val)
+
+    flipped_lr_X_test = list(flipped_lr_X_test)
+    flipped_lr_y_test = list(flipped_lr_y_test)
+    flipped_ud_X_test = list(flipped_ud_X_test)
+    flipped_ud_y_test = list(flipped_ud_y_test)
+    flipped_lr_ud_X_test = list(flipped_lr_ud_X_test)
+    flipped_lr_ud_y_test = list(flipped_lr_ud_y_test)
+
+    # Concatenate all generated features into one array.
+    new_X_train = flipped_lr_X_train + flipped_ud_X_train + flipped_lr_ud_X_train
+    new_y_train = flipped_lr_y_train + flipped_ud_y_train + flipped_lr_ud_y_train
+
+    new_X_val = flipped_lr_X_val + flipped_ud_X_val + flipped_lr_ud_X_val
+    new_y_val = flipped_lr_y_val + flipped_ud_y_val + flipped_lr_ud_y_val
+
+    new_X_test = flipped_lr_X_test + flipped_ud_X_test + flipped_lr_ud_X_test
+    new_y_test = flipped_lr_y_test + flipped_ud_y_test + flipped_lr_ud_y_test
+
+    # Add gaussian noise to all the features.
+    noise_X_train, noise_y_train = addGaussianNoise(new_X_train, new_y_train)
+    noise_X_val, noise_y_val = addGaussianNoise(new_X_val, new_y_val)
+    noise_X_test, noise_y_test = addGaussianNoise(new_X_test, new_y_test)
+
+    # Add noise features to the existing features.
+    new_X_train = new_X_train + list(noise_X_train)
+    new_y_train = new_y_train + list(noise_y_train)
+
+    new_X_val = new_X_val + list(noise_X_val)
+    new_y_val = new_y_val + list(noise_y_val)
+
+    new_X_test = new_X_test + list(noise_X_test)
+    new_y_test = new_y_test + list(noise_y_test)
+
+    print(len(new_X_train))
+    print(len(new_y_train))
+    print(len(new_X_val))
+    print(len(new_y_val))
+    print(len(new_X_test))
+    print(len(new_y_test))
+
+    new_X_train = np.array(new_X_train)
+    new_y_train = np.array(new_y_train)
+    new_X_val = np.array(new_X_val)
+    new_y_val = np.array(new_y_val)
+    new_X_test = np.array(new_X_test)
+    new_y_test = np.array(new_y_test)
+
+    return new_X_train, new_y_train, new_X_val, new_y_val, new_X_test, new_y_test
+
+

@@ -67,7 +67,7 @@ print(model.summary())
 
 # exit()
 
-model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=0.0000001),
+model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=0.001),
               # loss=tf.keras.losses.SparseCategoricalCrossentropy(
               #     from_logits=True),
               # loss=tf.keras.losses.CategoricalCrossentropy(),
