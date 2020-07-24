@@ -1,1 +1,2 @@
 DATASET_ROOT_DIRECTORY = '/cs/scratch/as521/data'
+GLOBAL_SEED = 123

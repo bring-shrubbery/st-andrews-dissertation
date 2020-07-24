@@ -8,7 +8,8 @@ import os
 import re
 from constants import DATASET_ROOT_DIRECTORY
 from random import randrange
-from augmentation import flipImagesLR, flipImagesUD, addGaussianNoise
+from augmentation import flipImagesLR, flipImagesUD, addGaussianNoise, augmentTranslation, augmentRotation
+from constants import GLOBAL_SEED
 
 # MARK: Dicom file loaders
 
@@ -70,10 +71,8 @@ def loadMediumPolypFeatures(filepath):
     # Clean up supine and prone slice values.
     # medium_polyps_df.supine_slice = ["nan" if len(s) == 0 else s for s in medium_polyps_df.supine_slice]
 
-    medium_polyps_df.supine_slice = [str(s)
-                                     for s in medium_polyps_df.supine_slice]
-    medium_polyps_df.prone_slice = [str(s)
-                                    for s in medium_polyps_df.prone_slice]
+    medium_polyps_df.supine_slice = [str(s) for s in medium_polyps_df.supine_slice]
+    medium_polyps_df.prone_slice = [str(s) for s in medium_polyps_df.prone_slice]
 
     # Filter dataframe to exclude rows that do not contian at least one slice number
     prone_qualifier = medium_polyps_df.prone_slice.str.contains('nan')
@@ -332,6 +331,7 @@ def loadBinaryDataset():
             X_test.append(all_no_polyp_images[i])
             y_test.append(0)
 
+    # Print datset sizes.
     print(len(X_train))
     print(len(y_train))
     print(len(X_val))
@@ -339,7 +339,7 @@ def loadBinaryDataset():
     print(len(X_test))
     print(len(y_test))
 
-    # Convert all data lists into numpy arrays.
+    # Convert all data lists into numpy arrays for output.
     X_train = np.array(X_train)
     y_train = np.array(y_train)
     X_val = np.array(X_val)
@@ -471,50 +471,52 @@ def loadAugmentedBinaryDataset():
     # Generate flipped images
     flipped_lr_X_train, flipped_lr_y_train = flipImagesLR(X_train, y_train)
     flipped_ud_X_train, flipped_ud_y_train = flipImagesUD(X_train, y_train)
-    flipped_lr_ud_X_train, flipped_lr_ud_y_train = flipImagesLR(
-        flipped_ud_X_train, flipped_ud_y_train)
 
     flipped_lr_X_val, flipped_lr_y_val = flipImagesLR(X_val, y_val)
     flipped_ud_X_val, flipped_ud_y_val = flipImagesUD(X_val, y_val)
-    flipped_lr_ud_X_val, flipped_lr_ud_y_val = flipImagesLR(
-        flipped_ud_X_val, flipped_ud_y_val)
 
     flipped_lr_X_test, flipped_lr_y_test = flipImagesLR(X_test, y_test)
     flipped_ud_X_test, flipped_ud_y_test = flipImagesUD(X_test, y_test)
-    flipped_lr_ud_X_test, flipped_lr_ud_y_test = flipImagesLR(
-        flipped_ud_X_test, flipped_ud_y_test)
-
-    # Convert to lists temporily.
-    flipped_lr_X_train = list(flipped_lr_X_train)
-    flipped_lr_y_train = list(flipped_lr_y_train)
-    flipped_ud_X_train = list(flipped_ud_X_train)
-    flipped_ud_y_train = list(flipped_ud_y_train)
-    flipped_lr_ud_X_train = list(flipped_lr_ud_X_train)
-    flipped_lr_ud_y_train = list(flipped_lr_ud_y_train)
-
-    flipped_lr_X_val = list(flipped_lr_X_val)
-    flipped_lr_y_val = list(flipped_lr_y_val)
-    flipped_ud_X_val = list(flipped_ud_X_val)
-    flipped_ud_y_val = list(flipped_ud_y_val)
-    flipped_lr_ud_X_val = list(flipped_lr_ud_X_val)
-    flipped_lr_ud_y_val = list(flipped_lr_ud_y_val)
-
-    flipped_lr_X_test = list(flipped_lr_X_test)
-    flipped_lr_y_test = list(flipped_lr_y_test)
-    flipped_ud_X_test = list(flipped_ud_X_test)
-    flipped_ud_y_test = list(flipped_ud_y_test)
-    flipped_lr_ud_X_test = list(flipped_lr_ud_X_test)
-    flipped_lr_ud_y_test = list(flipped_lr_ud_y_test)
 
     # Concatenate all generated features into one array.
-    new_X_train = flipped_lr_X_train + flipped_ud_X_train + flipped_lr_ud_X_train
-    new_y_train = flipped_lr_y_train + flipped_ud_y_train + flipped_lr_ud_y_train
+    new_X_train = list(flipped_lr_X_train) + list(flipped_ud_X_train)
+    new_y_train = list(flipped_lr_y_train) + list(flipped_ud_y_train)
 
-    new_X_val = flipped_lr_X_val + flipped_ud_X_val + flipped_lr_ud_X_val
-    new_y_val = flipped_lr_y_val + flipped_ud_y_val + flipped_lr_ud_y_val
+    new_X_val = list(flipped_lr_X_val) + list(flipped_ud_X_val)
+    new_y_val = list(flipped_lr_y_val) + list(flipped_ud_y_val)
 
-    new_X_test = flipped_lr_X_test + flipped_ud_X_test + flipped_lr_ud_X_test
-    new_y_test = flipped_lr_y_test + flipped_ud_y_test + flipped_lr_ud_y_test
+    new_X_test = list(flipped_lr_X_test) + list(flipped_ud_X_test)
+    new_y_test = list(flipped_lr_y_test) + list(flipped_ud_y_test)
+
+    # Generate rotated images
+    rotated_X_train, rotated_y_train = augmentRotation(X_train, y_train)
+    rotated_X_val, rotated_y_val = augmentRotation(X_val, y_val)
+    rotated_X_test, rotated_y_test = augmentRotation(X_test, y_test)
+
+    # Generate translated images
+    translated_X_train, translated_y_train = augmentTranslation(X_train, y_train)
+    translated_X_val, translated_y_val = augmentTranslation(X_val, y_val)
+    translated_X_test, translated_y_test = augmentTranslation(X_test, y_test)
+
+    # Add rotated features
+    new_X_train = new_X_train + list(rotated_X_train)
+    new_y_train = new_y_train + list(rotated_y_train)
+
+    new_X_val = new_X_val + list(rotated_X_val)
+    new_y_val = new_y_val + list(rotated_y_val)
+
+    new_X_test = new_X_test + list(rotated_X_test)
+    new_y_test = new_y_test + list(rotated_y_test)
+
+    # Add translated features
+    new_X_train = new_X_train + list(translated_X_train)
+    new_y_train = new_y_train + list(translated_y_train)
+
+    new_X_val = new_X_val + list(translated_X_val)
+    new_y_val = new_y_val + list(translated_y_val)
+
+    new_X_test = new_X_test + list(translated_X_test)
+    new_y_test = new_y_test + list(translated_y_test)
 
     # Add gaussian noise to all the features.
     noise_X_train, noise_y_train = addGaussianNoise(new_X_train, new_y_train)
@@ -531,6 +533,7 @@ def loadAugmentedBinaryDataset():
     new_X_test = new_X_test + list(noise_X_test)
     new_y_test = new_y_test + list(noise_y_test)
 
+    # Print sizes of the new sets
     print(len(new_X_train))
     print(len(new_y_train))
     print(len(new_X_val))
@@ -538,6 +541,7 @@ def loadAugmentedBinaryDataset():
     print(len(new_X_test))
     print(len(new_y_test))
 
+    # Convert back to np.array for output
     new_X_train = np.array(new_X_train)
     new_y_train = np.array(new_y_train)
     new_X_val = np.array(new_X_val)
