@@ -1,0 +1,8 @@
+Validation
+tf.Tensor(
+[[124  56]
+ [ 37 143]], shape=(2, 2), dtype=int32)
+Training
+tf.Tensor(
+[[810   0]
+ [ 16 794]], shape=(2, 2), dtype=int32)
