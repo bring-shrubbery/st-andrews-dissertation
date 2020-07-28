@@ -465,7 +465,7 @@ def loadNoPolypImagesFromSlideIds(ids):
     return loadDicomListPixelData(image_paths)
 
 
-def loadAugmentedBinaryDataset():
+def loadAugmentedBinaryDataset(normalize=False):
     X_train, y_train, X_val, y_val, X_test, y_test = loadBinaryDataset()
 
     # Generate flipped images
@@ -490,13 +490,13 @@ def loadAugmentedBinaryDataset():
 
     # Generate rotated images
     rotated_X_train, rotated_y_train = augmentRotation(X_train, y_train)
-    rotated_X_val, rotated_y_val = augmentRotation(X_val, y_val)
-    rotated_X_test, rotated_y_test = augmentRotation(X_test, y_test)
+    rotated_X_val,   rotated_y_val   = augmentRotation(X_val, y_val)
+    rotated_X_test,  rotated_y_test  = augmentRotation(X_test, y_test)
 
     # Generate translated images
     translated_X_train, translated_y_train = augmentTranslation(X_train, y_train)
-    translated_X_val, translated_y_val = augmentTranslation(X_val, y_val)
-    translated_X_test, translated_y_test = augmentTranslation(X_test, y_test)
+    translated_X_val,   translated_y_val   = augmentTranslation(X_val, y_val)
+    translated_X_test,  translated_y_test  = augmentTranslation(X_test, y_test)
 
     # Add rotated features
     new_X_train = new_X_train + list(rotated_X_train)
@@ -520,8 +520,8 @@ def loadAugmentedBinaryDataset():
 
     # Add gaussian noise to all the features.
     noise_X_train, noise_y_train = addGaussianNoise(new_X_train, new_y_train)
-    noise_X_val, noise_y_val = addGaussianNoise(new_X_val, new_y_val)
-    noise_X_test, noise_y_test = addGaussianNoise(new_X_test, new_y_test)
+    noise_X_val,   noise_y_val   = addGaussianNoise(new_X_val, new_y_val)
+    noise_X_test,  noise_y_test  = addGaussianNoise(new_X_test, new_y_test)
 
     # Add noise features to the existing features.
     new_X_train = new_X_train + list(noise_X_train)
@@ -534,20 +534,26 @@ def loadAugmentedBinaryDataset():
     new_y_test = new_y_test + list(noise_y_test)
 
     # Print sizes of the new sets
-    print(len(new_X_train))
-    print(len(new_y_train))
-    print(len(new_X_val))
-    print(len(new_y_val))
-    print(len(new_X_test))
-    print(len(new_y_test))
+    print("New X_train", len(new_X_train))
+    print("New y_train", len(new_y_train))
+    print("New X_val",   len(new_X_val))
+    print("New y_val",   len(new_y_val))
+    print("New X_test",  len(new_X_test))
+    print("New y_test",  len(new_y_test))
 
     # Convert back to np.array for output
     new_X_train = np.array(new_X_train)
     new_y_train = np.array(new_y_train)
-    new_X_val = np.array(new_X_val)
-    new_y_val = np.array(new_y_val)
-    new_X_test = np.array(new_X_test)
-    new_y_test = np.array(new_y_test)
+    new_X_val   = np.array(new_X_val)
+    new_y_val   = np.array(new_y_val)
+    new_X_test  = np.array(new_X_test)
+    new_y_test  = np.array(new_y_test)
+
+    # Normalise the images of all three datasets if specified
+    if normalize:
+        new_X_train = tf.keras.utils.normalize(new_X_train)
+        new_X_val   = tf.keras.utils.normalize(new_X_val)
+        new_X_test  = tf.keras.utils.normalize(new_X_test)
 
     return new_X_train, new_y_train, new_X_val, new_y_val, new_X_test, new_y_test
 
