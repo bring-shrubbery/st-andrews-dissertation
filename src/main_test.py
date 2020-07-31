@@ -9,7 +9,7 @@ _, _, _, _, X_test, y_test = loadAugmentedBinaryDatasetFromFiles()
 print('Loading model...')
 model = load_model(BASELINE_MODEL_PATH)
 
-print('Evaluating model...')
+print('Evaluating model on testing dataset...')
 results = model.evaluate(X_test, y_test, batch_size=4, return_dict=True)
 
 print('Results:')
