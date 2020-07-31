@@ -39,8 +39,8 @@ def plotAndSave(filename, history, model, X_val, y_val):
     # Make validation predictions and construct confusion matrix.
     predictions = model.predict(X_val, batch_size=2)
     predictions = [round(p[0]) for p in predictions]
-    print("Predictions:", predictions)
-    print("Y_val:", y_val)
+    # print("Predictions:", predictions)
+    # print("Y_val:", y_val)
     cf = confusion_matrix(y_val, predictions)
     cf = np.array(cf)
 
