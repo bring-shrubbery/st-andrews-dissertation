@@ -9,7 +9,8 @@ import re
 from constants import DATASET_ROOT_DIRECTORY
 from random import randrange
 from augmentation import flipImagesLR, flipImagesUD, addGaussianNoise, augmentTranslation, augmentRotation
-from constants import GLOBAL_SEED
+from constants import GLOBAL_SEED, USERNAME
+from PIL import Image
 
 # MARK: Dicom file loaders
 
@@ -246,7 +247,8 @@ def loadMediumPolypData():
 
     return image_data_list
 
-
+# loadBinaryDataset
+# image_fmt: 'np' | 'PIL'
 def loadBinaryDataset():
     large_polyp_data_list = loadLargePolypData()
     medium_polyp_data_list = loadMediumPolypData()
@@ -295,19 +297,20 @@ def loadBinaryDataset():
                 datasets[i+1].extend([1]*len(study_based_map[key]))
                 break
 
+    # Load the dataset based on the image_fmt parameter
+    
     X_train = loadDicomListPixelData(datasets[0])
-    y_train = datasets[1]
-
     X_val = loadDicomListPixelData(datasets[2])
-    y_val = datasets[3]
-
     X_test = loadDicomListPixelData(datasets[4])
-    y_test = datasets[5]
-
+    
     # Reshape images to be 512x512
     X_train = [x.reshape(512, 512, 1) for x in X_train]
     X_val = [x.reshape(512, 512, 1) for x in X_val]
     X_test = [x.reshape(512, 512, 1) for x in X_test]
+
+    y_train = datasets[1]
+    y_val = datasets[3]
+    y_test = datasets[5]
 
     # Append no-polyp samples
     # all_no_polyp_images = loadRandomNoPolypImages()
@@ -317,7 +320,7 @@ def loadBinaryDataset():
 
     total_count = len(X_train)+len(X_val)+len(X_test)
     X_train_len = len(X_train)
-    X_train_val_len = len(X_train) + len(X_val)
+    X_train_val_len = len(X_train)+len(X_val)
 
     # Decide which set has least entries and add new subset there.
     for i in range(total_count):
@@ -332,12 +335,12 @@ def loadBinaryDataset():
             y_test.append(0)
 
     # Print datset sizes.
-    print(len(X_train))
-    print(len(y_train))
-    print(len(X_val))
-    print(len(y_val))
-    print(len(X_test))
-    print(len(y_test))
+    print("Unmodified X_train size:", len(X_train))
+    print("Unmodified y_train size:", len(y_train))
+    print("Unmodified X_val size:  ", len(X_val))
+    print("Unmodified y_val size:  ", len(y_val))
+    print("Unmodified X_test size: ", len(X_test))
+    print("Unmodified y_test size: ", len(y_test))
 
     # Convert all data lists into numpy arrays for output.
     X_train = np.array(X_train)
@@ -555,6 +558,59 @@ def loadAugmentedBinaryDataset(normalize=False):
         new_X_val   = tf.keras.utils.normalize(new_X_val)
         new_X_test  = tf.keras.utils.normalize(new_X_test)
 
-    return new_X_train, new_y_train, new_X_val, new_y_val, new_X_test, new_y_test
+    # # Convert to tf.data.Dataset
+    train_dataset = tf.data.Dataset.from_tensor_slices((new_X_train, new_y_train))
+    val_dataset = tf.data.Dataset.from_tensor_slices((new_X_val, new_y_val))
+    test_dataset = tf.data.Dataset.from_tensor_slices((new_X_test, new_y_test))
+
+    # return new_X_train, new_y_train, new_X_val, new_y_val, new_X_test, new_y_test
+    return train_dataset, val_dataset, test_dataset
 
 
+def loadAugmentedBinaryDatasetFromFiles():
+    BINARY_DATASET_BASE_URL = '/cs/scratch/{}/generated-features/'.format(
+        USERNAME)
+    TRAINING_URL = BINARY_DATASET_BASE_URL + 'training/'
+    VALIDATION_URL = BINARY_DATASET_BASE_URL + 'validation/'
+    TESTING_URL = BINARY_DATASET_BASE_URL + 'testing/'
+
+    X_train, y_train, X_val, y_val, X_test, y_test = [], [], [], [], [], []
+
+    for t in ['positive', 'negative']:
+        TRAIN_URL = TRAINING_URL + t
+        VAL_URL = VALIDATION_URL + t
+        TEST_URL = TESTING_URL + t
+
+        train_files = os.listdir(TRAIN_URL)
+        val_files = os.listdir(VAL_URL)
+        test_files = os.listdir(TEST_URL)
+
+        for f in train_files:
+            FILEPATH = '{}/{}'.format(TRAIN_URL, f)
+            with open(FILEPATH, 'rb') as file:
+                X_train.append(np.load(file))
+                new_y = 1 if t == 'positive' else 0
+                y_train.append(new_y)
+
+        for f in val_files:
+            FILEPATH = '{}/{}'.format(VAL_URL, f)
+            with open(FILEPATH, 'rb') as file:
+                X_val.append(np.load(file))
+                new_y = 1 if t == 'positive' else 0
+                y_val.append(new_y)
+
+        for f in test_files:
+            FILEPATH = '{}/{}'.format(TEST_URL, f)
+            with open(FILEPATH, 'rb') as file:
+                X_test.append(np.load(file))
+                new_y = 1 if t == 'positive' else 0
+                y_test.append(new_y)
+
+    X_train = np.array(X_train)
+    y_train = np.array(y_train)
+    X_val = np.array(X_val)
+    y_val = np.array(y_val)
+    X_test = np.array(X_test)
+    y_test = np.array(y_test)
+
+    return X_train, y_train, X_val, y_val, X_test, y_test
