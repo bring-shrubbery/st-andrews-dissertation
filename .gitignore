@@ -5,3 +5,4 @@ __pycache__
 models
 models/**
 twitter-api
+nohup.out
