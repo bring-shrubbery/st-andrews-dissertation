@@ -1,0 +1,400 @@
+WARNING:tensorflow:`epsilon` argument is deprecated and will be removed, use `min_delta` instead.
+2020-08-01 20:09:06.952524: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcuda.so.1
+2020-08-01 20:09:07.255252: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:981] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2020-08-01 20:09:07.255799: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1561] Found device 0 with properties: 
+pciBusID: 0000:01:00.0 name: GeForce GTX 1060 6GB computeCapability: 6.1
+coreClock: 1.7085GHz coreCount: 10 deviceMemorySize: 5.93GiB deviceMemoryBandwidth: 178.99GiB/s
+2020-08-01 20:09:07.257588: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudart.so.10.1
+2020-08-01 20:09:07.262056: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcublas.so.10
+2020-08-01 20:09:07.265189: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcufft.so.10
+2020-08-01 20:09:07.265582: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcurand.so.10
+2020-08-01 20:09:07.267897: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcusolver.so.10
+2020-08-01 20:09:07.269351: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcusparse.so.10
+2020-08-01 20:09:07.277186: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudnn.so.7
+2020-08-01 20:09:07.277336: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:981] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2020-08-01 20:09:07.279967: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:981] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2020-08-01 20:09:07.280464: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1703] Adding visible gpu devices: 0
+2020-08-01 20:09:07.280767: I tensorflow/core/platform/cpu_feature_guard.cc:143] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+2020-08-01 20:09:07.286420: I tensorflow/core/platform/profile_utils/cpu_utils.cc:102] CPU Frequency: 3192000000 Hz
+2020-08-01 20:09:07.286598: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x470fbb10 initialized for platform Host (this does not guarantee that XLA will be used). Devices:
+2020-08-01 20:09:07.287894: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): Host, Default Version
+2020-08-01 20:09:07.358979: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:981] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2020-08-01 20:09:07.359467: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x4710fb00 initialized for platform CUDA (this does not guarantee that XLA will be used). Devices:
+2020-08-01 20:09:07.360827: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): GeForce GTX 1060 6GB, Compute Capability 6.1
+2020-08-01 20:09:07.363190: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:981] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2020-08-01 20:09:07.363512: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1561] Found device 0 with properties: 
+pciBusID: 0000:01:00.0 name: GeForce GTX 1060 6GB computeCapability: 6.1
+coreClock: 1.7085GHz coreCount: 10 deviceMemorySize: 5.93GiB deviceMemoryBandwidth: 178.99GiB/s
+2020-08-01 20:09:07.363550: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudart.so.10.1
+2020-08-01 20:09:07.363570: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcublas.so.10
+2020-08-01 20:09:07.363587: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcufft.so.10
+2020-08-01 20:09:07.363602: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcurand.so.10
+2020-08-01 20:09:07.363618: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcusolver.so.10
+2020-08-01 20:09:07.363633: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcusparse.so.10
+2020-08-01 20:09:07.363648: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudnn.so.7
+2020-08-01 20:09:07.363710: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:981] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2020-08-01 20:09:07.364063: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:981] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2020-08-01 20:09:07.366561: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1703] Adding visible gpu devices: 0
+2020-08-01 20:09:07.368873: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudart.so.10.1
+2020-08-01 20:09:07.371922: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1102] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-08-01 20:09:07.373003: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1108]      0 
+2020-08-01 20:09:07.373026: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1121] 0:   N 
+2020-08-01 20:09:07.373918: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:981] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2020-08-01 20:09:07.376422: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:981] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2020-08-01 20:09:07.376727: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1247] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 5646 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1060 6GB, pci bus id: 0000:01:00.0, compute capability: 6.1)
+2020-08-01 20:09:08.786436: W tensorflow/core/framework/cpu_allocator_impl.cc:81] Allocation of 1698693120 exceeds 10% of free system memory.
+2020-08-01 20:09:10.933450: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcublas.so.10
+2020-08-01 20:09:11.050780: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudnn.so.7
+2020-08-01 20:09:12.291904: W tensorflow/core/common_runtime/bfc_allocator.cc:245] Allocator (GPU_0_bfc) ran out of memory trying to allocate 1.78GiB with freed_by_count=0. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory were available.
+2020-08-01 20:09:12.393985: W tensorflow/core/common_runtime/bfc_allocator.cc:245] Allocator (GPU_0_bfc) ran out of memory trying to allocate 3.14GiB with freed_by_count=0. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory were available.
+2020-08-01 20:09:12.433897: W tensorflow/core/common_runtime/bfc_allocator.cc:245] Allocator (GPU_0_bfc) ran out of memory trying to allocate 2.10GiB with freed_by_count=0. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory were available.
+2020-08-01 20:09:12.542085: W tensorflow/core/common_runtime/bfc_allocator.cc:245] Allocator (GPU_0_bfc) ran out of memory trying to allocate 2.08GiB with freed_by_count=0. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory were available.
+2020-08-01 20:09:12.553934: W tensorflow/core/common_runtime/bfc_allocator.cc:245] Allocator (GPU_0_bfc) ran out of memory trying to allocate 2.10GiB with freed_by_count=0. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory were available.
+2020-08-01 20:09:12.582503: W tensorflow/core/common_runtime/bfc_allocator.cc:245] Allocator (GPU_0_bfc) ran out of memory trying to allocate 3.13GiB with freed_by_count=0. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory were available.
+2020-08-01 20:09:12.623024: W tensorflow/core/common_runtime/bfc_allocator.cc:245] Allocator (GPU_0_bfc) ran out of memory trying to allocate 3.11GiB with freed_by_count=0. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory were available.
+2020-08-01 20:09:12.814048: W tensorflow/core/common_runtime/bfc_allocator.cc:245] Allocator (GPU_0_bfc) ran out of memory trying to allocate 1.78GiB with freed_by_count=0. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory were available.
+2020-08-01 20:09:12.929789: W tensorflow/core/common_runtime/bfc_allocator.cc:245] Allocator (GPU_0_bfc) ran out of memory trying to allocate 1.78GiB with freed_by_count=0. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory were available.
+2020-08-01 20:12:52.770895: W tensorflow/core/framework/cpu_allocator_impl.cc:81] Allocation of 1073741824 exceeds 10% of free system memory.
+2020-08-01 20:12:54.399221: W tensorflow/core/framework/cpu_allocator_impl.cc:81] Allocation of 1073741824 exceeds 10% of free system memory.
+2020-08-01 20:12:55.154493: W tensorflow/core/framework/cpu_allocator_impl.cc:81] Allocation of 1073741824 exceeds 10% of free system memory.
+Preparing...
+Loading dataset...
+Creating the model...
+Model: "sequential"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+conv2d (Conv2D)              (None, 502, 502, 96)      11712     
+_________________________________________________________________
+batch_normalization (BatchNo (None, 502, 502, 96)      384       
+_________________________________________________________________
+activation (Activation)      (None, 502, 502, 96)      0         
+_________________________________________________________________
+max_pooling2d (MaxPooling2D) (None, 167, 167, 96)      0         
+_________________________________________________________________
+conv2d_1 (Conv2D)            (None, 163, 163, 384)     921984    
+_________________________________________________________________
+activation_1 (Activation)    (None, 163, 163, 384)     0         
+_________________________________________________________________
+max_pooling2d_1 (MaxPooling2 (None, 54, 54, 384)       0         
+_________________________________________________________________
+conv2d_2 (Conv2D)            (None, 52, 52, 384)       1327488   
+_________________________________________________________________
+conv2d_3 (Conv2D)            (None, 50, 50, 256)       884992    
+_________________________________________________________________
+conv2d_4 (Conv2D)            (None, 48, 48, 256)       590080    
+_________________________________________________________________
+activation_2 (Activation)    (None, 48, 48, 256)       0         
+_________________________________________________________________
+max_pooling2d_2 (MaxPooling2 (None, 16, 16, 256)       0         
+_________________________________________________________________
+flatten (Flatten)            (None, 65536)             0         
+_________________________________________________________________
+dense (Dense)                (None, 4096)              268439552 
+_________________________________________________________________
+dropout (Dropout)            (None, 4096)              0         
+_________________________________________________________________
+dense_1 (Dense)              (None, 4096)              16781312  
+_________________________________________________________________
+dropout_1 (Dropout)          (None, 4096)              0         
+_________________________________________________________________
+dense_2 (Dense)              (None, 1)                 4097      
+=================================================================
+Total params: 288,961,601
+Trainable params: 288,961,409
+Non-trainable params: 192
+_________________________________________________________________
+None
+Training the model...
+Epoch 1/100
+
+Epoch 00001: val_loss improved from inf to 49.03289, saving model to /cs/scratch/as521/models/checkpoints/baseline-model.h5
+810/810 - 226s - loss: 76.2524 - accuracy: 0.4988 - mse: 0.4759 - precision: 0.0000e+00 - recall: 0.0000e+00 - val_loss: 49.0329 - val_accuracy: 0.5000 - val_mse: 0.4548 - val_precision: 0.0000e+00 - val_recall: 0.0000e+00 - lr: 1.0000e-05
+2020-08-01 20:16:40.267234: W tensorflow/core/framework/cpu_allocator_impl.cc:81] Allocation of 1073741824 exceeds 10% of free system memory.
+Epoch 2/100
+
+Epoch 00002: val_loss improved from 49.03289 to 20.12692, saving model to /cs/scratch/as521/models/checkpoints/baseline-model.h5
+810/810 - 227s - loss: 32.7339 - accuracy: 0.5049 - mse: 0.4017 - precision: 0.7000 - recall: 0.0173 - val_loss: 20.1269 - val_accuracy: 0.5000 - val_mse: 0.3819 - val_precision: 0.0000e+00 - val_recall: 0.0000e+00 - lr: 1.0000e-05
+Epoch 3/100
+
+Epoch 00003: val_loss improved from 20.12692 to 7.51136, saving model to /cs/scratch/as521/models/checkpoints/baseline-model.h5
+810/810 - 228s - loss: 12.9063 - accuracy: 0.5988 - mse: 0.3397 - precision: 0.8306 - recall: 0.2481 - val_loss: 7.5114 - val_accuracy: 0.6028 - val_mse: 0.3457 - val_precision: 0.6796 - val_recall: 0.3889 - lr: 1.0000e-05
+Epoch 4/100
+
+Epoch 00004: val_loss improved from 7.51136 to 2.60546, saving model to /cs/scratch/as521/models/checkpoints/baseline-model.h5
+810/810 - 228s - loss: 4.6466 - accuracy: 0.6179 - mse: 0.3317 - precision: 0.8282 - recall: 0.2975 - val_loss: 2.6055 - val_accuracy: 0.6694 - val_mse: 0.2975 - val_precision: 0.9067 - val_recall: 0.3778 - lr: 1.0000e-05
+Epoch 5/100
+
+Epoch 00005: val_loss improved from 2.60546 to 1.14237, saving model to /cs/scratch/as521/models/checkpoints/baseline-model.h5
+810/810 - 228s - loss: 1.6911 - accuracy: 0.6426 - mse: 0.3095 - precision: 0.8621 - recall: 0.3395 - val_loss: 1.1424 - val_accuracy: 0.5861 - val_mse: 0.3577 - val_precision: 0.6000 - val_recall: 0.5167 - lr: 1.0000e-05
+Epoch 6/100
+
+Epoch 00006: val_loss improved from 1.14237 to 0.72556, saving model to /cs/scratch/as521/models/checkpoints/baseline-model.h5
+810/810 - 228s - loss: 0.8631 - accuracy: 0.6562 - mse: 0.2977 - precision: 0.8428 - recall: 0.3840 - val_loss: 0.7256 - val_accuracy: 0.6500 - val_mse: 0.3235 - val_precision: 1.0000 - val_recall: 0.3000 - lr: 1.0000e-05
+Epoch 7/100
+
+Epoch 00007: val_loss did not improve from 0.72556
+810/810 - 220s - loss: 0.6848 - accuracy: 0.6858 - mse: 0.2843 - precision: 0.8716 - recall: 0.4358 - val_loss: 0.7393 - val_accuracy: 0.5778 - val_mse: 0.3630 - val_precision: 0.5729 - val_recall: 0.6111 - lr: 1.0000e-05
+Epoch 8/100
+
+Epoch 00008: val_loss improved from 0.72556 to 0.65287, saving model to /cs/scratch/as521/models/checkpoints/baseline-model.h5
+810/810 - 226s - loss: 0.6608 - accuracy: 0.6716 - mse: 0.2841 - precision: 0.8492 - recall: 0.4173 - val_loss: 0.6529 - val_accuracy: 0.6639 - val_mse: 0.2502 - val_precision: 0.7565 - val_recall: 0.4833 - lr: 1.0000e-05
+Epoch 9/100
+
+Epoch 00009: val_loss improved from 0.65287 to 0.65205, saving model to /cs/scratch/as521/models/checkpoints/baseline-model.h5
+810/810 - 227s - loss: 0.6472 - accuracy: 0.6914 - mse: 0.2724 - precision: 0.8762 - recall: 0.4457 - val_loss: 0.6520 - val_accuracy: 0.7056 - val_mse: 0.2600 - val_precision: 0.7937 - val_recall: 0.5556 - lr: 1.0000e-05
+Epoch 10/100
+
+Epoch 00010: val_loss improved from 0.65205 to 0.64700, saving model to /cs/scratch/as521/models/checkpoints/baseline-model.h5
+810/810 - 227s - loss: 0.6393 - accuracy: 0.7068 - mse: 0.2652 - precision: 0.9056 - recall: 0.4617 - val_loss: 0.6470 - val_accuracy: 0.6528 - val_mse: 0.3190 - val_precision: 1.0000 - val_recall: 0.3056 - lr: 1.0000e-05
+Epoch 11/100
+
+Epoch 00011: val_loss improved from 0.64700 to 0.61886, saving model to /cs/scratch/as521/models/checkpoints/baseline-model.h5
+810/810 - 227s - loss: 0.6322 - accuracy: 0.7278 - mse: 0.2449 - precision: 0.9165 - recall: 0.5012 - val_loss: 0.6189 - val_accuracy: 0.7667 - val_mse: 0.2232 - val_precision: 0.9286 - val_recall: 0.5778 - lr: 1.0000e-05
+Epoch 12/100
+
+Epoch 00012: val_loss did not improve from 0.61886
+810/810 - 220s - loss: 0.6279 - accuracy: 0.7346 - mse: 0.2361 - precision: 0.9060 - recall: 0.5235 - val_loss: 0.6265 - val_accuracy: 0.7111 - val_mse: 0.2572 - val_precision: 0.9750 - val_recall: 0.4333 - lr: 1.0000e-05
+Epoch 13/100
+
+Epoch 00013: val_loss did not improve from 0.61886
+810/810 - 220s - loss: 0.6224 - accuracy: 0.7451 - mse: 0.2306 - precision: 0.9441 - recall: 0.5210 - val_loss: 0.6350 - val_accuracy: 0.7333 - val_mse: 0.2386 - val_precision: 0.8182 - val_recall: 0.6000 - lr: 1.0000e-05
+Epoch 14/100
+
+Epoch 00014: val_loss did not improve from 0.61886
+810/810 - 220s - loss: 0.6161 - accuracy: 0.7667 - mse: 0.2098 - precision: 0.9320 - recall: 0.5753 - val_loss: 0.6412 - val_accuracy: 0.6861 - val_mse: 0.2993 - val_precision: 1.0000 - val_recall: 0.3722 - lr: 1.0000e-05
+Epoch 15/100
+
+Epoch 00015: val_loss did not improve from 0.61886
+810/810 - 220s - loss: 0.6103 - accuracy: 0.7815 - mse: 0.1999 - precision: 0.9453 - recall: 0.5975 - val_loss: 0.6651 - val_accuracy: 0.6833 - val_mse: 0.2692 - val_precision: 0.6897 - val_recall: 0.6667 - lr: 1.0000e-05
+Epoch 16/100
+
+Epoch 00016: val_loss did not improve from 0.61886
+810/810 - 219s - loss: 0.6020 - accuracy: 0.8080 - mse: 0.1791 - precision: 0.9681 - recall: 0.6370 - val_loss: 0.6263 - val_accuracy: 0.7583 - val_mse: 0.2154 - val_precision: 0.8252 - val_recall: 0.6556 - lr: 1.0000e-05
+Epoch 17/100
+
+Epoch 00017: val_loss improved from 0.61886 to 0.61307, saving model to /cs/scratch/as521/models/checkpoints/baseline-model.h5
+810/810 - 226s - loss: 0.6013 - accuracy: 0.8086 - mse: 0.1736 - precision: 0.9579 - recall: 0.6457 - val_loss: 0.6131 - val_accuracy: 0.7639 - val_mse: 0.2203 - val_precision: 1.0000 - val_recall: 0.5278 - lr: 1.0000e-05
+Epoch 18/100
+
+Epoch 00018: val_loss did not improve from 0.61307
+810/810 - 219s - loss: 0.5938 - accuracy: 0.8278 - mse: 0.1629 - precision: 0.9784 - recall: 0.6704 - val_loss: 0.6195 - val_accuracy: 0.7806 - val_mse: 0.2036 - val_precision: 0.8633 - val_recall: 0.6667 - lr: 1.0000e-05
+Epoch 19/100
+
+Epoch 00019: val_loss improved from 0.61307 to 0.61215, saving model to /cs/scratch/as521/models/checkpoints/baseline-model.h5
+810/810 - 227s - loss: 0.5912 - accuracy: 0.8296 - mse: 0.1567 - precision: 0.9785 - recall: 0.6741 - val_loss: 0.6121 - val_accuracy: 0.7806 - val_mse: 0.1885 - val_precision: 0.8686 - val_recall: 0.6611 - lr: 1.0000e-05
+Epoch 20/100
+
+Epoch 00020: val_loss improved from 0.61215 to 0.60741, saving model to /cs/scratch/as521/models/checkpoints/baseline-model.h5
+810/810 - 227s - loss: 0.5859 - accuracy: 0.8457 - mse: 0.1423 - precision: 0.9811 - recall: 0.7049 - val_loss: 0.6074 - val_accuracy: 0.7889 - val_mse: 0.1802 - val_precision: 0.8881 - val_recall: 0.6611 - lr: 1.0000e-05
+Epoch 21/100
+
+Epoch 00021: val_loss did not improve from 0.60741
+810/810 - 219s - loss: 0.5817 - accuracy: 0.8549 - mse: 0.1365 - precision: 0.9931 - recall: 0.7148 - val_loss: 0.6159 - val_accuracy: 0.7889 - val_mse: 0.1856 - val_precision: 0.8562 - val_recall: 0.6944 - lr: 1.0000e-05
+Epoch 22/100
+
+Epoch 00022: val_loss improved from 0.60741 to 0.59700, saving model to /cs/scratch/as521/models/checkpoints/baseline-model.h5
+810/810 - 227s - loss: 0.5796 - accuracy: 0.8611 - mse: 0.1296 - precision: 0.9966 - recall: 0.7247 - val_loss: 0.5970 - val_accuracy: 0.8083 - val_mse: 0.1667 - val_precision: 0.9370 - val_recall: 0.6611 - lr: 1.0000e-05
+Epoch 23/100
+
+Epoch 00023: val_loss did not improve from 0.59700
+810/810 - 219s - loss: 0.5757 - accuracy: 0.8704 - mse: 0.1228 - precision: 0.9934 - recall: 0.7457 - val_loss: 0.6162 - val_accuracy: 0.7528 - val_mse: 0.2177 - val_precision: 0.9596 - val_recall: 0.5278 - lr: 1.0000e-05
+Epoch 24/100
+
+Epoch 00024: val_loss did not improve from 0.59700
+810/810 - 220s - loss: 0.5755 - accuracy: 0.8716 - mse: 0.1178 - precision: 0.9824 - recall: 0.7568 - val_loss: 0.5992 - val_accuracy: 0.8083 - val_mse: 0.1727 - val_precision: 0.9664 - val_recall: 0.6389 - lr: 1.0000e-05
+Epoch 25/100
+
+Epoch 00025: val_loss did not improve from 0.59700
+810/810 - 220s - loss: 0.5710 - accuracy: 0.8827 - mse: 0.1087 - precision: 0.9890 - recall: 0.7741 - val_loss: 0.5995 - val_accuracy: 0.8028 - val_mse: 0.1739 - val_precision: 0.9658 - val_recall: 0.6278 - lr: 1.0000e-05
+Epoch 26/100
+
+Epoch 00026: val_loss did not improve from 0.59700
+810/810 - 220s - loss: 0.5669 - accuracy: 0.8895 - mse: 0.1037 - precision: 0.9953 - recall: 0.7827 - val_loss: 0.6016 - val_accuracy: 0.7861 - val_mse: 0.1848 - val_precision: 0.9640 - val_recall: 0.5944 - lr: 1.0000e-05
+Epoch 27/100
+
+Epoch 00027: val_loss did not improve from 0.59700
+810/810 - 219s - loss: 0.5633 - accuracy: 0.8988 - mse: 0.0983 - precision: 0.9985 - recall: 0.7988 - val_loss: 0.6162 - val_accuracy: 0.7806 - val_mse: 0.1846 - val_precision: 0.8301 - val_recall: 0.7056 - lr: 1.0000e-05
+Epoch 28/100
+
+Epoch 00028: val_loss improved from 0.59700 to 0.59596, saving model to /cs/scratch/as521/models/checkpoints/baseline-model.h5
+810/810 - 227s - loss: 0.5632 - accuracy: 0.8969 - mse: 0.0959 - precision: 0.9923 - recall: 0.8000 - val_loss: 0.5960 - val_accuracy: 0.8083 - val_mse: 0.1604 - val_precision: 0.9370 - val_recall: 0.6611 - lr: 1.0000e-05
+Epoch 29/100
+
+Epoch 00029: val_loss did not improve from 0.59596
+810/810 - 219s - loss: 0.5608 - accuracy: 0.9049 - mse: 0.0929 - precision: 0.9985 - recall: 0.8111 - val_loss: 0.5975 - val_accuracy: 0.8306 - val_mse: 0.1601 - val_precision: 0.9103 - val_recall: 0.7333 - lr: 1.0000e-05
+Epoch 30/100
+
+Epoch 00030: val_loss did not improve from 0.59596
+810/810 - 219s - loss: 0.5590 - accuracy: 0.9074 - mse: 0.0896 - precision: 0.9955 - recall: 0.8185 - val_loss: 0.6008 - val_accuracy: 0.7917 - val_mse: 0.1779 - val_precision: 0.9339 - val_recall: 0.6278 - lr: 1.0000e-05
+Epoch 31/100
+
+Epoch 00031: val_loss did not improve from 0.59596
+810/810 - 219s - loss: 0.5577 - accuracy: 0.9074 - mse: 0.0909 - precision: 0.9970 - recall: 0.8173 - val_loss: 0.6378 - val_accuracy: 0.7806 - val_mse: 0.2114 - val_precision: 0.7701 - val_recall: 0.8000 - lr: 1.0000e-05
+Epoch 32/100
+
+Epoch 00032: val_loss did not improve from 0.59596
+810/810 - 219s - loss: 0.5581 - accuracy: 0.9086 - mse: 0.0866 - precision: 0.9926 - recall: 0.8235 - val_loss: 0.6637 - val_accuracy: 0.7500 - val_mse: 0.2298 - val_precision: 0.6891 - val_recall: 0.9111 - lr: 1.0000e-05
+Epoch 33/100
+
+Epoch 00033: val_loss improved from 0.59596 to 0.59544, saving model to /cs/scratch/as521/models/checkpoints/baseline-model.h5
+810/810 - 228s - loss: 0.5595 - accuracy: 0.9093 - mse: 0.0884 - precision: 0.9911 - recall: 0.8259 - val_loss: 0.5954 - val_accuracy: 0.7972 - val_mse: 0.1835 - val_precision: 1.0000 - val_recall: 0.5944 - lr: 1.0000e-05
+Epoch 34/100
+
+Epoch 00034: val_loss did not improve from 0.59544
+810/810 - 219s - loss: 0.5555 - accuracy: 0.9136 - mse: 0.0824 - precision: 0.9985 - recall: 0.8284 - val_loss: 0.6005 - val_accuracy: 0.8111 - val_mse: 0.1637 - val_precision: 0.9000 - val_recall: 0.7000 - lr: 1.0000e-05
+Epoch 35/100
+
+Epoch 00035: val_loss did not improve from 0.59544
+810/810 - 219s - loss: 0.5528 - accuracy: 0.9191 - mse: 0.0793 - precision: 1.0000 - recall: 0.8383 - val_loss: 0.6234 - val_accuracy: 0.7889 - val_mse: 0.1909 - val_precision: 0.7989 - val_recall: 0.7722 - lr: 1.0000e-05
+Epoch 36/100
+
+Epoch 00036: val_loss did not improve from 0.59544
+810/810 - 219s - loss: 0.5512 - accuracy: 0.9204 - mse: 0.0760 - precision: 0.9956 - recall: 0.8444 - val_loss: 0.6119 - val_accuracy: 0.7972 - val_mse: 0.1715 - val_precision: 0.8282 - val_recall: 0.7500 - lr: 1.0000e-05
+Epoch 37/100
+
+Epoch 00037: val_loss did not improve from 0.59544
+810/810 - 219s - loss: 0.5502 - accuracy: 0.9228 - mse: 0.0742 - precision: 1.0000 - recall: 0.8457 - val_loss: 0.6345 - val_accuracy: 0.7806 - val_mse: 0.2045 - val_precision: 0.7644 - val_recall: 0.8111 - lr: 1.0000e-05
+Epoch 38/100
+
+Epoch 00038: val_loss improved from 0.59544 to 0.59097, saving model to /cs/scratch/as521/models/checkpoints/baseline-model.h5
+810/810 - 227s - loss: 0.5486 - accuracy: 0.9259 - mse: 0.0720 - precision: 1.0000 - recall: 0.8519 - val_loss: 0.5910 - val_accuracy: 0.8167 - val_mse: 0.1613 - val_precision: 0.9385 - val_recall: 0.6778 - lr: 1.0000e-05
+Epoch 39/100
+
+Epoch 00039: val_loss did not improve from 0.59097
+810/810 - 219s - loss: 0.5496 - accuracy: 0.9259 - mse: 0.0714 - precision: 0.9986 - recall: 0.8531 - val_loss: 0.6361 - val_accuracy: 0.7500 - val_mse: 0.2047 - val_precision: 0.7368 - val_recall: 0.7778 - lr: 1.0000e-05
+Epoch 40/100
+
+Epoch 00040: val_loss did not improve from 0.59097
+810/810 - 219s - loss: 0.5473 - accuracy: 0.9315 - mse: 0.0662 - precision: 1.0000 - recall: 0.8630 - val_loss: 0.6306 - val_accuracy: 0.7778 - val_mse: 0.1969 - val_precision: 0.7688 - val_recall: 0.7944 - lr: 1.0000e-05
+Epoch 41/100
+
+Epoch 00041: val_loss did not improve from 0.59097
+810/810 - 219s - loss: 0.5482 - accuracy: 0.9321 - mse: 0.0673 - precision: 0.9986 - recall: 0.8654 - val_loss: 0.6061 - val_accuracy: 0.8083 - val_mse: 0.1705 - val_precision: 0.8776 - val_recall: 0.7167 - lr: 1.0000e-05
+Epoch 42/100
+
+Epoch 00042: val_loss did not improve from 0.59097
+810/810 - 219s - loss: 0.5458 - accuracy: 0.9352 - mse: 0.0636 - precision: 0.9986 - recall: 0.8716 - val_loss: 0.6107 - val_accuracy: 0.7778 - val_mse: 0.1944 - val_precision: 0.8472 - val_recall: 0.6778 - lr: 1.0000e-05
+Epoch 43/100
+
+Epoch 00043: val_loss did not improve from 0.59097
+810/810 - 219s - loss: 0.5444 - accuracy: 0.9346 - mse: 0.0634 - precision: 1.0000 - recall: 0.8691 - val_loss: 0.6509 - val_accuracy: 0.7278 - val_mse: 0.2291 - val_precision: 0.7092 - val_recall: 0.7722 - lr: 1.0000e-05
+Epoch 44/100
+
+Epoch 00044: val_loss did not improve from 0.59097
+810/810 - 219s - loss: 0.5455 - accuracy: 0.9358 - mse: 0.0626 - precision: 0.9972 - recall: 0.8741 - val_loss: 0.6274 - val_accuracy: 0.7556 - val_mse: 0.2092 - val_precision: 0.7875 - val_recall: 0.7000 - lr: 1.0000e-05
+Epoch 45/100
+
+Epoch 00045: val_loss did not improve from 0.59097
+810/810 - 219s - loss: 0.5439 - accuracy: 0.9377 - mse: 0.0607 - precision: 0.9972 - recall: 0.8778 - val_loss: 0.6084 - val_accuracy: 0.7861 - val_mse: 0.1743 - val_precision: 0.8652 - val_recall: 0.6778 - lr: 1.0000e-05
+Epoch 46/100
+
+Epoch 00046: val_loss did not improve from 0.59097
+810/810 - 220s - loss: 0.5435 - accuracy: 0.9358 - mse: 0.0608 - precision: 0.9972 - recall: 0.8741 - val_loss: 0.6623 - val_accuracy: 0.7167 - val_mse: 0.2515 - val_precision: 0.6990 - val_recall: 0.7611 - lr: 1.0000e-05
+Epoch 47/100
+
+Epoch 00047: val_loss did not improve from 0.59097
+810/810 - 219s - loss: 0.5428 - accuracy: 0.9420 - mse: 0.0570 - precision: 0.9986 - recall: 0.8852 - val_loss: 0.5995 - val_accuracy: 0.7944 - val_mse: 0.1771 - val_precision: 0.9417 - val_recall: 0.6278 - lr: 1.0000e-05
+Epoch 48/100
+
+Epoch 00048: val_loss did not improve from 0.59097
+
+Epoch 00048: ReduceLROnPlateau reducing learning rate to 9.999999747378752e-07.
+810/810 - 219s - loss: 0.5428 - accuracy: 0.9407 - mse: 0.0582 - precision: 0.9986 - recall: 0.8827 - val_loss: 0.6144 - val_accuracy: 0.7806 - val_mse: 0.1910 - val_precision: 0.8301 - val_recall: 0.7056 - lr: 1.0000e-05
+Epoch 49/100
+
+Epoch 00049: val_loss did not improve from 0.59097
+810/810 - 219s - loss: 0.5400 - accuracy: 0.9444 - mse: 0.0554 - precision: 1.0000 - recall: 0.8889 - val_loss: 0.6155 - val_accuracy: 0.7806 - val_mse: 0.1872 - val_precision: 0.8137 - val_recall: 0.7278 - lr: 1.0000e-06
+Epoch 50/100
+
+Epoch 00050: val_loss did not improve from 0.59097
+810/810 - 219s - loss: 0.5396 - accuracy: 0.9444 - mse: 0.0558 - precision: 1.0000 - recall: 0.8889 - val_loss: 0.6254 - val_accuracy: 0.7778 - val_mse: 0.1982 - val_precision: 0.7874 - val_recall: 0.7611 - lr: 1.0000e-06
+Epoch 51/100
+
+Epoch 00051: val_loss did not improve from 0.59097
+810/810 - 220s - loss: 0.5392 - accuracy: 0.9438 - mse: 0.0556 - precision: 1.0000 - recall: 0.8877 - val_loss: 0.6212 - val_accuracy: 0.7806 - val_mse: 0.1939 - val_precision: 0.7953 - val_recall: 0.7556 - lr: 1.0000e-06
+Epoch 52/100
+
+Epoch 00052: val_loss did not improve from 0.59097
+810/810 - 219s - loss: 0.5385 - accuracy: 0.9444 - mse: 0.0554 - precision: 1.0000 - recall: 0.8889 - val_loss: 0.6125 - val_accuracy: 0.7806 - val_mse: 0.1848 - val_precision: 0.8176 - val_recall: 0.7222 - lr: 1.0000e-06
+Epoch 53/100
+
+Epoch 00053: val_loss did not improve from 0.59097
+810/810 - 219s - loss: 0.5381 - accuracy: 0.9444 - mse: 0.0546 - precision: 1.0000 - recall: 0.8889 - val_loss: 0.6195 - val_accuracy: 0.7833 - val_mse: 0.1928 - val_precision: 0.8000 - val_recall: 0.7556 - lr: 1.0000e-06
+Epoch 54/100
+
+Epoch 00054: val_loss did not improve from 0.59097
+810/810 - 219s - loss: 0.5376 - accuracy: 0.9451 - mse: 0.0536 - precision: 1.0000 - recall: 0.8901 - val_loss: 0.6181 - val_accuracy: 0.7806 - val_mse: 0.1934 - val_precision: 0.8098 - val_recall: 0.7333 - lr: 1.0000e-06
+Epoch 55/100
+
+Epoch 00055: val_loss did not improve from 0.59097
+810/810 - 219s - loss: 0.5371 - accuracy: 0.9469 - mse: 0.0530 - precision: 1.0000 - recall: 0.8938 - val_loss: 0.6227 - val_accuracy: 0.7944 - val_mse: 0.1973 - val_precision: 0.8046 - val_recall: 0.7778 - lr: 1.0000e-06
+Epoch 56/100
+
+Epoch 00056: val_loss did not improve from 0.59097
+810/810 - 219s - loss: 0.5369 - accuracy: 0.9457 - mse: 0.0537 - precision: 1.0000 - recall: 0.8914 - val_loss: 0.6343 - val_accuracy: 0.7694 - val_mse: 0.2132 - val_precision: 0.7622 - val_recall: 0.7833 - lr: 1.0000e-06
+Epoch 57/100
+
+Epoch 00057: val_loss did not improve from 0.59097
+810/810 - 219s - loss: 0.5368 - accuracy: 0.9463 - mse: 0.0530 - precision: 1.0000 - recall: 0.8926 - val_loss: 0.6310 - val_accuracy: 0.7611 - val_mse: 0.2104 - val_precision: 0.7582 - val_recall: 0.7667 - lr: 1.0000e-06
+Epoch 58/100
+
+Epoch 00058: val_loss did not improve from 0.59097
+
+Epoch 00058: ReduceLROnPlateau reducing learning rate to 9.999999974752428e-08.
+810/810 - 219s - loss: 0.5365 - accuracy: 0.9469 - mse: 0.0525 - precision: 1.0000 - recall: 0.8938 - val_loss: 0.6273 - val_accuracy: 0.7639 - val_mse: 0.2060 - val_precision: 0.7714 - val_recall: 0.7500 - lr: 1.0000e-06
+Epoch 59/100
+
+Epoch 00059: val_loss did not improve from 0.59097
+810/810 - 219s - loss: 0.5362 - accuracy: 0.9475 - mse: 0.0523 - precision: 1.0000 - recall: 0.8951 - val_loss: 0.6268 - val_accuracy: 0.7694 - val_mse: 0.2041 - val_precision: 0.7740 - val_recall: 0.7611 - lr: 1.0000e-07
+Epoch 60/100
+
+Epoch 00060: val_loss did not improve from 0.59097
+810/810 - 219s - loss: 0.5359 - accuracy: 0.9481 - mse: 0.0515 - precision: 1.0000 - recall: 0.8963 - val_loss: 0.6287 - val_accuracy: 0.7667 - val_mse: 0.2064 - val_precision: 0.7667 - val_recall: 0.7667 - lr: 1.0000e-07
+Epoch 61/100
+
+Epoch 00061: val_loss did not improve from 0.59097
+810/810 - 219s - loss: 0.5359 - accuracy: 0.9488 - mse: 0.0515 - precision: 1.0000 - recall: 0.8975 - val_loss: 0.6283 - val_accuracy: 0.7639 - val_mse: 0.2058 - val_precision: 0.7654 - val_recall: 0.7611 - lr: 1.0000e-07
+Epoch 62/100
+
+Epoch 00062: val_loss did not improve from 0.59097
+810/810 - 219s - loss: 0.5361 - accuracy: 0.9481 - mse: 0.0519 - precision: 1.0000 - recall: 0.8963 - val_loss: 0.6287 - val_accuracy: 0.7639 - val_mse: 0.2066 - val_precision: 0.7654 - val_recall: 0.7611 - lr: 1.0000e-07
+Epoch 63/100
+
+Epoch 00063: val_loss did not improve from 0.59097
+810/810 - 218s - loss: 0.5360 - accuracy: 0.9475 - mse: 0.0520 - precision: 1.0000 - recall: 0.8951 - val_loss: 0.6290 - val_accuracy: 0.7611 - val_mse: 0.2065 - val_precision: 0.7611 - val_recall: 0.7611 - lr: 1.0000e-07
+Epoch 64/100
+
+Epoch 00064: val_loss did not improve from 0.59097
+810/810 - 219s - loss: 0.5360 - accuracy: 0.9488 - mse: 0.0516 - precision: 1.0000 - recall: 0.8975 - val_loss: 0.6281 - val_accuracy: 0.7639 - val_mse: 0.2056 - val_precision: 0.7654 - val_recall: 0.7611 - lr: 1.0000e-07
+Epoch 65/100
+
+Epoch 00065: val_loss did not improve from 0.59097
+810/810 - 219s - loss: 0.5361 - accuracy: 0.9475 - mse: 0.0522 - precision: 1.0000 - recall: 0.8951 - val_loss: 0.6283 - val_accuracy: 0.7639 - val_mse: 0.2066 - val_precision: 0.7654 - val_recall: 0.7611 - lr: 1.0000e-07
+Epoch 66/100
+
+Epoch 00066: val_loss did not improve from 0.59097
+810/810 - 219s - loss: 0.5359 - accuracy: 0.9481 - mse: 0.0517 - precision: 1.0000 - recall: 0.8963 - val_loss: 0.6279 - val_accuracy: 0.7639 - val_mse: 0.2057 - val_precision: 0.7654 - val_recall: 0.7611 - lr: 1.0000e-07
+Epoch 67/100
+
+Epoch 00067: val_loss did not improve from 0.59097
+810/810 - 219s - loss: 0.5360 - accuracy: 0.9481 - mse: 0.0519 - precision: 1.0000 - recall: 0.8963 - val_loss: 0.6280 - val_accuracy: 0.7639 - val_mse: 0.2051 - val_precision: 0.7654 - val_recall: 0.7611 - lr: 1.0000e-07
+Epoch 68/100
+
+Epoch 00068: val_loss did not improve from 0.59097
+
+Epoch 00068: ReduceLROnPlateau reducing learning rate to 1.0000000116860975e-08.
+810/810 - 219s - loss: 0.5360 - accuracy: 0.9475 - mse: 0.0521 - precision: 1.0000 - recall: 0.8951 - val_loss: 0.6273 - val_accuracy: 0.7694 - val_mse: 0.2046 - val_precision: 0.7771 - val_recall: 0.7556 - lr: 1.0000e-07
+Epoch 00068: early stopping
+Evaluating results...
+Validation
+[141  39]
+[ 44 136]
+Training
+[810   0]
+[ 84 726]
+
+Total execution time:  4:12:20.193654
+Final evalutaiton...
+180/180 - 11s - loss: 0.6273 - accuracy: 0.7694 - mse: 0.2046 - precision: 0.7771 - recall: 0.7556
+{'loss': 0.6273329257965088, 'accuracy': 0.769444465637207, 'mse': 0.20456629991531372, 'precision': 0.7771428823471069, 'recall': 0.7555555701255798}
