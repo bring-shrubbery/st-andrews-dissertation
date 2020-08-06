@@ -1,7 +1,7 @@
 EPOCHS = 100
 BATCH_SIZE = 2
 LEARNING_RATE = 0.00001
-DROPOUT_FACTOR = 0.4
-L2_FACTOR = 0.01
+DROPOUT_FACTOR = 0.1
+L2_FACTOR = 0.1
 optimizer=Adam
 loss=BinaryCrossentropy

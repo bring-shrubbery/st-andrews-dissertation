@@ -4,3 +4,4 @@ LEARNING_RATE = 0.00001
 DROPOUT_FACTOR = 0.4
 L2_FACTOR = 0.1
 optimizer=Adam
+loss=BinaryCrossentropy
